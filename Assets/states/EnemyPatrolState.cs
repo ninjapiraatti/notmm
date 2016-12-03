@@ -9,9 +9,9 @@ public class EnemyPatrolState : IEnemyState
   private readonly EnemyBoss enemy;
   private int nextWayPoint;
 
-  public EnemyPatrolState (EnemyBoss statePatternEnemy)
+  public EnemyPatrolState (EnemyBoss EnemyBossVariable)
   {
-    enemy = statePatternEnemy;
+    enemy = EnemyBossVariable;
   }
 
   public void UpdateState()
@@ -20,11 +20,16 @@ public class EnemyPatrolState : IEnemyState
     Patrol ();
   }
 
-  public void OnTriggerEnter (Collider other)
+  public void OnTriggerEnter2D (Collider2D other)
   {
     if (other.gameObject.CompareTag ("Player")) {
 			ToAlertState ();
 		}
+  }
+
+  public void OnCollisionEnter2D(Collision2D coll)
+  {
+
   }
 
   public void ToPatrolState()

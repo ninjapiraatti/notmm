@@ -19,7 +19,7 @@ public class EnemyBoss : MonoBehaviour {
 	[HideInInspector] public EnemyChaseState chaseState;
 	[HideInInspector] public EnemyAlertState alertState;
 	[HideInInspector] public EnemyPatrolState patrolState;
-	[HideInInspector] public NavMeshAgent navMeshAgent;
+	[HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
 
 	private void Awake()
 	{
@@ -27,7 +27,7 @@ public class EnemyBoss : MonoBehaviour {
 			alertState = new EnemyAlertState (this);
 			patrolState = new EnemyPatrolState (this);
 
-			navMeshAgent = GetComponent<NavMeshAgent> ();
+			navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 	}
 
 	// Enemy boss starts inactive.

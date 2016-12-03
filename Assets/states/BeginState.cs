@@ -6,11 +6,11 @@ namespace Assets.states {
 	public class BeginState : IStateBase {
 
 		private StateManager manager;
-		
+
 		public BeginState (StateManager managerRef) {
 
 			manager = managerRef;
-			Debug.Log("Constructing beginstate");
+			//Debug.Log("Constructing beginstate");
 		}
 		public void StateUpdate() {
 			if (Input.GetKeyUp (KeyCode.Space)) {

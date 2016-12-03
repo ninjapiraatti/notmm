@@ -7,9 +7,9 @@ public class EnemyAlertState : IEnemyState
   private readonly EnemyBoss enemy;
   private float searchTimer;
 
-  public EnemyAlertState (EnemyBoss statePatternEnemy)
+  public EnemyAlertState (EnemyBoss EnemyBossVariable)
   {
-    enemy = statePatternEnemy;
+    enemy = EnemyBossVariable;
   }
 
   public void UpdateState()
@@ -18,7 +18,12 @@ public class EnemyAlertState : IEnemyState
     Search ();
   }
 
-  public void OnTriggerEnter (Collider other)
+  public void OnTriggerEnter2D (Collider2D other)
+  {
+
+  }
+
+  public void OnCollisionEnter2D(Collision2D coll)
   {
 
   }
@@ -47,7 +52,7 @@ public class EnemyAlertState : IEnemyState
 
   private void Search()
   {
-		
+
   }
 
 

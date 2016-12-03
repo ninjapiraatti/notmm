@@ -9,10 +9,9 @@ public class EnemyChaseState : IEnemyState
 
   private readonly EnemyBoss enemy;
 
-
-  public EnemyChaseState (EnemyBoss statePatternEnemy)
+  public EnemyChaseState (EnemyBoss EnemyBossVariable)
   {
-    enemy = statePatternEnemy;
+    enemy = EnemyBossVariable;
   }
 
   public void UpdateState()
@@ -21,7 +20,12 @@ public class EnemyChaseState : IEnemyState
     Chase ();
   }
 
-  public void OnTriggerEnter (Collider other)
+  public void OnTriggerEnter2D (Collider2D other)
+  {
+
+  }
+
+  public void OnCollisionEnter2D(Collision2D coll)
   {
 
   }

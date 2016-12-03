@@ -7,7 +7,7 @@ public class StateManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		activeState = new BeginState(this);
-		Debug.Log("This object is of type: " + activeState);
+		//Debug.Log("This object is of type: " + activeState);
 	}
 
 	// Update is called once per frame

@@ -1,52 +1,57 @@
 using UnityEngine;
-using System.Collections;
+using Assets.states;
+using Assets.interfaces;
 
 public class EnemyNormal : MonoBehaviour {
 
-	public float maxSpeed = 10f;
-	float maxJumpSpeed = 400f;
-	bool facingRight = true;
-	bool grounded = true;
-	public float someScale;
-	public float speed;
+
+	bool isActive = false;
+	bool hearsPlayer;
+	bool seesPlayer;
+	float distanceToPlayer;
+	public GameObject player;
+	float someScale;
+	public float speed = -2f;
 	public float speedY;
-	public Transform top_left;
- 	public Transform bottom_right;
- 	public LayerMask ground_layers;
-	public bool canShoot = false;
-	public GameObject projectile;
-	Animator anim;
+	public bool facingRight = true;
+
+	[HideInInspector] public Transform chaseTarget;
+	[HideInInspector] public IEnemyState currentState;
+	[HideInInspector] public EnemyNormalChaseState chaseState;
+	[HideInInspector] public EnemyNormalAlertState alertState;
+	[HideInInspector] public EnemyNormalPatrolState patrolState;
+	[HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
+
+	private void Awake()
+	{
+			chaseState = new EnemyNormalChaseState (this);
+			alertState = new EnemyNormalAlertState (this);
+			patrolState = new EnemyNormalPatrolState (this);
+
+			navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+	}
 
 	// Use this for initialization
 	void Start () {
+		someScale = transform.localScale.x;
+		currentState = patrolState;
+		isActive = true;
+		speed = -1f;
 	}
 
 	// Update is called once per frame
 	void FixedUpdate () {
+		speedY = GetComponent<Rigidbody2D>().velocity.y;
 	}
 
-	void Update () {
-	}
-
-	void Flip () {
+	public void Flip () {
 		facingRight = !facingRight;
-		someScale *= -1;
+		someScale *= 1;
 		transform.localScale = new Vector2(someScale, transform.localScale.y);
 	}
-
-	void Fire () {
-		canShoot = false;
-		Debug.Log(canShoot);
-		if(facingRight) {
-			GameObject projectileClone = (GameObject)Instantiate(projectile, new Vector2 (this.transform.position.x+1, this.transform.position.y), Quaternion.identity);
-			Vector3 dir = Vector3.right;
-			projectileClone.GetComponent<Rigidbody2D>().AddForce(dir*1000);
-		}
-		else {
-			GameObject projectileClone = (GameObject)Instantiate(projectile, new Vector2 (this.transform.position.x-1, this.transform.position.y), Quaternion.identity);
-			Vector3 dir = Vector3.left;
-			projectileClone.GetComponent<Rigidbody2D>().AddForce(dir*1000);
+	void Update () {
+		if (currentState != null) {
+			currentState.UpdateState ();
 		}
 	}
-
 }
