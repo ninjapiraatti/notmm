@@ -20,14 +20,11 @@ public class EnemyNormalPatrolState : IEnemyState
     Patrol ();
   }
 
-  public void OnTriggerEnter2D (Collider2D other)
-  {
+  public void OnTriggerEnter2D (Collider2D other) {
     if (other.gameObject.CompareTag ("Player")) {
 			ToAlertState ();
       Debug.Log ("Going to ALERT");
 		}
-    ToAlertState ();
-    Debug.Log ("Going to ALERT");
   }
 
   public void OnCollisionEnter2D(Collision2D coll)
@@ -42,7 +39,9 @@ public class EnemyNormalPatrolState : IEnemyState
 
   public void ToAlertState()
   {
-    enemy.currentState = enemy.alertState;
+    //enemy.currentState = enemy.alertState;
+    //Debug.Log ("Going to ALERT");
+    enemy.Fire();
   }
 
   public void ToChaseState()
@@ -58,10 +57,5 @@ public class EnemyNormalPatrolState : IEnemyState
   void Patrol ()
   {
 		enemy.GetComponent<Rigidbody2D>().velocity = new Vector2 (enemy.speed, enemy.speedY);
-		if (enemy.speed > 0 && !enemy.facingRight) {
-			enemy.Flip();
-		} else if (enemy.speed < 0 && enemy.facingRight) {
-			enemy.Flip();
-		}
   }
 }

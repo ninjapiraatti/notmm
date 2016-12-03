@@ -15,6 +15,7 @@ public class DumbAssController : MonoBehaviour {
  	public LayerMask ground_layers;
 	public bool canShoot = false;
 	public GameObject projectile;
+	public bool damaged = false;
 	Animator anim;
 
 	// Use this for initialization
@@ -45,6 +46,21 @@ public class DumbAssController : MonoBehaviour {
 			grounded = false;
 			GetComponent<Rigidbody2D>().AddForce(new Vector2(0, maxJumpSpeed));
 			//GetComponent<Rigidbody2D>().velocity = new Vector2(0, maxJumpSpeed);
+		}
+	}
+
+	void OnCollisionEnter2D (Collision2D other) {
+		if (other.gameObject.CompareTag ("deadly")) {
+			Die();
+		}
+	}
+
+	void Die () {
+		if(!damaged) {
+			transform.localScale = new Vector2(someScale, 0.5f);
+			damaged = true;
+		} else {
+			
 		}
 	}
 
