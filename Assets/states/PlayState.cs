@@ -9,11 +9,12 @@ namespace Assets.states {
 		public PlayState (StateManager managerRef) {
 
 			manager = managerRef;
-			Debug.Log("Constructing playstate");
+			//Debug.Log("Constructing playstate");
 		}
 		public void StateUpdate() {
-			if (Input.GetKeyUp (KeyCode.Space)) {
-				manager.SwitchState (new WonState (manager));
+			if (GameObject.Find("Character") == null) {
+				manager.SwitchState (new LostState (manager));
+				Debug.Log("sdfsd");
 			}
 		}
 		public void ShowIt() {

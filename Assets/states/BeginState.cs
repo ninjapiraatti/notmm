@@ -13,8 +13,9 @@ namespace Assets.states {
 			//Debug.Log("Constructing beginstate");
 		}
 		public void StateUpdate() {
-			if (Input.GetKeyUp (KeyCode.Space)) {
-				manager.SwitchState (new PlayState (manager));
+			if (GameObject.Find("Character") == null) {
+				manager.SwitchState (new LostState (manager));
+				Debug.Log("sdfsd");
 			}
 		}
 		public void ShowIt() {

@@ -7,6 +7,7 @@ public class DumbAssController : MonoBehaviour {
 	float maxJumpSpeed = 400f;
 	bool facingRight = true;
 	bool grounded = true;
+	bool canHurt = true;
 	public float someScale;
 	public float speed;
 	public float speedY;
@@ -21,6 +22,8 @@ public class DumbAssController : MonoBehaviour {
  	public AudioSource damageSound;
 	public AudioSource dieSound;
 	public AudioSource teleportSound;
+	public SpriteRenderer renderer;
+	public SpriteRenderer renderer2;
 	Animator anim;
 
 	// Use this for initialization
@@ -57,11 +60,14 @@ public class DumbAssController : MonoBehaviour {
 			GetComponent<Rigidbody2D>().AddForce(new Vector2(0, maxJumpSpeed));
 			//GetComponent<Rigidbody2D>().velocity = new Vector2(0, maxJumpSpeed);
 		}
+		if(transform.position.y < -50) {
+			Die();
+		}
 	}
 
 	void OnCollisionEnter2D (Collision2D other) {
-		if (other.gameObject.CompareTag ("deadly")) {
-			Die();
+		if (other.gameObject.CompareTag ("deadly") && canHurt == true) {
+			Hurt();
 		}
 		if (other.gameObject.CompareTag ("teleport")) {
 			transform.position = new Vector3(22f, -9f, 0);
@@ -69,14 +75,30 @@ public class DumbAssController : MonoBehaviour {
 		}
 	}
 
-	void Die () {
+	void Hurt () {
 		if(!damaged) {
 			transform.localScale = new Vector2(someScale, 0.5f);
 			damaged = true;
 			damageSound.Play();
+			StartCoroutine(Blink());
 		} else {
-			dieSound.Play();
+			Die();
 		}
+	}
+
+	IEnumerator Blink () {
+		canHurt = false;
+		renderer.color = new Color(255f, 255f, 255f, 0.5f);
+		renderer2.color = new Color(255f, 255f, 255f, 0.5f);
+		yield return new WaitForSeconds(3);
+		canHurt = true;
+		renderer.color = new Color(255f, 255f, 255f, 1f);
+		renderer2.color = new Color(255f, 255f, 255f, 1f);
+	}
+
+	void Die () {
+		Destroy(gameObject);
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 	void Flip () {

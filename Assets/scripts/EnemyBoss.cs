@@ -15,6 +15,8 @@ public class EnemyBoss : MonoBehaviour {
 	public Animator anim;
 	public GameObject projectile;
 	public Transform myTransform;
+	public AudioSource[] sounds;
+ 	public AudioSource dieSound;
 
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IEnemyState currentState;
@@ -39,6 +41,7 @@ public class EnemyBoss : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		currentState = patrolState;
 		isActive = true;
+		dieSound = sounds[0];
 	}
 
 	// Update is called once per frame
@@ -55,7 +58,9 @@ public class EnemyBoss : MonoBehaviour {
 			Flip();
 		}
 		if (other.gameObject.CompareTag ("projectile")) {
-
+			Destroy(gameObject, 0.2f);
+			dieSound.Play();
+			Destroy(other.gameObject);
 		}
 	}
 
