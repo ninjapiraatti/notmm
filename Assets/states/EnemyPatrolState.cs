@@ -20,8 +20,7 @@ public class EnemyPatrolState : IEnemyState
     Patrol ();
   }
 
-  public void OnTriggerEnter2D (Collider2D other)
-  {
+  public void OnTriggerEnter2D (Collider2D other) {
     if (other.gameObject.CompareTag ("Player")) {
 			ToAlertState ();
 		}
@@ -39,7 +38,8 @@ public class EnemyPatrolState : IEnemyState
 
   public void ToAlertState()
   {
-    enemy.currentState = enemy.alertState;
+    //enemy.currentState = enemy.alertState;
+    enemy.Fire();
   }
 
   public void ToChaseState()
@@ -56,10 +56,12 @@ public class EnemyPatrolState : IEnemyState
   {
 		enemy.anim.SetFloat("speed", Mathf.Abs(enemy.speed));
 		enemy.GetComponent<Rigidbody2D>().velocity = new Vector2 (enemy.speed, 0);
+    /*
 		if (enemy.speed > 0 && !enemy.facingRight) {
 			enemy.Flip();
 		} else if (enemy.speed < 0 && enemy.facingRight) {
 			enemy.Flip();
 		}
+    */
   }
 }

@@ -20,6 +20,7 @@ public class DumbAssController : MonoBehaviour {
 	public AudioSource shootSound;
  	public AudioSource damageSound;
 	public AudioSource dieSound;
+	public AudioSource teleportSound;
 	Animator anim;
 
 	// Use this for initialization
@@ -29,7 +30,8 @@ public class DumbAssController : MonoBehaviour {
 		sounds = GetComponents<AudioSource>();
  		shootSound = sounds[0];
  		damageSound = sounds[1];
-		dieSound = sounds[1];
+		dieSound = sounds[2];
+		teleportSound = sounds[3];
 	}
 
 	// Update is called once per frame
@@ -62,7 +64,8 @@ public class DumbAssController : MonoBehaviour {
 			Die();
 		}
 		if (other.gameObject.CompareTag ("teleport")) {
-			transform.position = new Vector3(28f, -9f, 0);
+			transform.position = new Vector3(22f, -9f, 0);
+			teleportSound.Play();
 		}
 	}
 
