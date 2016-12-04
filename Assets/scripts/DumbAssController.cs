@@ -16,12 +16,20 @@ public class DumbAssController : MonoBehaviour {
 	public bool canShoot = false;
 	public GameObject projectile;
 	public bool damaged = false;
+	public AudioSource[] sounds;
+	public AudioSource shootSound;
+ 	public AudioSource damageSound;
+	public AudioSource dieSound;
 	Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		someScale = transform.localScale.x;
 		anim = GetComponent<Animator>();
+		sounds = GetComponents<AudioSource>();
+ 		shootSound = sounds[0];
+ 		damageSound = sounds[1];
+		dieSound = sounds[1];
 	}
 
 	// Update is called once per frame
@@ -53,14 +61,18 @@ public class DumbAssController : MonoBehaviour {
 		if (other.gameObject.CompareTag ("deadly")) {
 			Die();
 		}
+		if (other.gameObject.CompareTag ("teleport")) {
+			transform.position = new Vector3(28f, -9f, 0);
+		}
 	}
 
 	void Die () {
 		if(!damaged) {
 			transform.localScale = new Vector2(someScale, 0.5f);
 			damaged = true;
+			damageSound.Play();
 		} else {
-			
+			dieSound.Play();
 		}
 	}
 
@@ -73,6 +85,7 @@ public class DumbAssController : MonoBehaviour {
 	void Fire () {
 		canShoot = false;
 		Debug.Log(canShoot);
+		shootSound.Play();
 		if(facingRight) {
 			GameObject projectileClone = (GameObject)Instantiate(projectile, new Vector2 (this.transform.position.x+1, this.transform.position.y), Quaternion.identity);
 			Vector3 dir = Vector3.right;

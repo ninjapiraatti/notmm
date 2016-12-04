@@ -15,6 +15,9 @@ public class Parser : MonoBehaviour {
 	int randomWord;
 	public DumbAssController playerScript;
 	public GameObject playerController;
+	public AudioSource[] sounds;
+	public AudioSource loadedSound;
+ 	public AudioSource failSound;
 	string[] pelitStuff = new string[] {"mignon", "kylkiasento", "suojaunmatch", "massaman", "kaduria", "balettisplitti", "munaton sankari", "kaljamaha", "superselitys", "5-vuotta", "ponikuva", "automaatio", "maito", "batang", "lapset scifissä", "ajankohtaista asiaa", "kagonen", "86", "rokotti vouhotus", "tusee", "korvatipat", "löfä", "tsop", "balrogin siivet", "tiikerin torni liian edessä", "maantiepoliisiksi arizonaan", "kukri", "satama-allas", "pikkuvirkamies", "edge maverick", "rei daisuki", "mä haluisin pelaa", "lähde", "juuh okei", "robusti konstruktio", "jonnelin noob klaaniin", "suomi ilmiö", "syylliset on helppo löytää", "pelit-brändi", "ässä pettää aina", "nauru ja huumori kuvat", "leijuke", "munake", "waifutyyny hanuri", "vitsi on siis siinä", "lisää mammuttitankkeja"};
 
 	void Awake () {
@@ -33,6 +36,10 @@ public class Parser : MonoBehaviour {
 		randomWord = Random.Range(0, pelitStuff.Length);
 		currentWord = pelitStuff[randomWord];
 		parserPlaceHolder.GetComponent<Text>().text = currentWord;
+
+		sounds = GetComponents<AudioSource>();
+ 		loadedSound = sounds[0];
+ 		failSound = sounds[1];
 	}
 
 	// Update is called once per frame
@@ -56,8 +63,9 @@ public class Parser : MonoBehaviour {
 		Debug.Log(parserInputText);
 		if(parserInputText == currentWord) {
 			playerScript.canShoot = true;
+			loadedSound.Play();
 		} else {
-			//Make a sound or something
+      failSound.Play();
 		}
 		randomWord = Random.Range(0, pelitStuff.Length);
 		currentWord = pelitStuff[randomWord];

@@ -15,6 +15,9 @@ public class EnemyNormal : MonoBehaviour {
 	public float speedY;
 	public bool facingRight = false;
 	public GameObject projectile;
+	public AudioSource[] sounds;
+	public AudioSource shootSound;
+ 	public AudioSource dieSound;
 
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IEnemyState currentState;
@@ -38,6 +41,9 @@ public class EnemyNormal : MonoBehaviour {
 		currentState = patrolState;
 		isActive = true;
 		speed = -1f;
+		sounds = GetComponents<AudioSource>();
+ 		shootSound = sounds[0];
+ 		dieSound = sounds[1];
 	}
 
 	// Update is called once per frame
@@ -65,9 +71,15 @@ public class EnemyNormal : MonoBehaviour {
 		if (other.gameObject.CompareTag ("verticalwall")) {
 			Flip();
 		}
+		if (other.gameObject.CompareTag ("projectile")) {
+			Destroy(gameObject, 0.2f);
+			dieSound.Play();
+			Destroy(other.gameObject);
+		}
 	}
 
 	public void Fire () {
+		shootSound.Play();
 		if(!facingRight) {
 			GameObject projectileClone = (GameObject)Instantiate(projectile, new Vector2 (this.transform.position.x+2, this.transform.position.y+0.6f), Quaternion.identity);
 			Vector3 dir = new Vector3(1f,0.5f,0f);
